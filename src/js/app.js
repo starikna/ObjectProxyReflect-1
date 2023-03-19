@@ -1,42 +1,36 @@
-const obj = {
-  name: 'мечник', 
-  health: 10, 
-  level: 2, 
-  attack: 80, 
-  defence: 40
-}
-
-const objSortRules = ["name", "level"];
-
+export { orderByProps };
+const orderByProps = function (object, sortRules) { 
 const arrPropKeys = [];
+const arrPropKeysAbc = [];
 
-const orderByProps = function(object, sortRules) { 
-  for ( const prop in object ) {
-    for (let i = 0; i < sortRules.length; i++) {
-      if (object.hasOwnProperty(prop)) {
-        let objItem = {}; 
-        objItem.item = `key: ${sortRules[i]}, value: ${object.prop}`;
-        arrPropKeys.push(objItem);
-        console.log(objItem);
-        console.log(arrPropKeys);
-        
-      } 
+  sortRules.forEach(el => {   
+    for (let prop in object) {
+      let objItem = {};
+
+      if (prop === el) {
+        objItem.key = el; 
+        objItem.value = object[prop];
+        arrPropKeys.push(objItem);  
+      }
+    }               
+  });
      
-    }
-    return 
-  } 
-      //  return
-      const { prop, ...data } = object;
-      console.log(data);
+  const { name, level, ...data } = object;      
+
+  for ( let prop in data ) {
+    let objItem = {
+      key: prop,
+      value: data[prop],
+    };
+      arrPropKeysAbc.push(objItem);  
+  }
+
+  function SortArray(x, y) {
+    if (x.key < y.key) {return -1};
+  }
+
+  let sortArrAbc = arrPropKeysAbc.sort(SortArray);
+  const newArrObj = arrPropKeys.concat(sortArrAbc);
+  return newArrObj;
 }
-
-
-orderByProps(obj, objSortRules);
-
-// [
-//   {key: "name", value: "мечник"}, // порядок взят из массива с ключами
-//   {key: "level", value: 2}, // порядок взят из массива с ключами
-//   {key: "attack", value: 80}, // порядок по алфавиту (т.к. в массиве с ключами нет значения "attack")
-//   {key: "defence", value: 40}, // порядок по алфавиту (т.к. в массиве с ключами нет значения "defence")
-//   {key: "health", value: 10} // порядок по алфавиту (т.к. в массиве с ключами нет значения "health")
-// ]
+ 
