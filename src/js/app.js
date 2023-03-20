@@ -15,15 +15,19 @@ const arrPropKeysAbc = [];
     }               
   });
      
-  const { name, level, ...data } = object;      
-
-  for ( let prop in data ) {
-    let objItem = {
-      key: prop,
-      value: data[prop],
-    };
-      arrPropKeysAbc.push(objItem);  
-  }
+    for (const key in object) {
+      if (sortRules.includes(key)) {
+        delete object[key];
+      }
+    }  
+  
+    for ( let prop in object ) {
+      let objItem = {
+        key: prop,
+        value: object[prop],
+      };
+        arrPropKeysAbc.push(objItem);  
+    }
 
   function SortArray(x, y) {
     if (x.key < y.key) {return -1};
